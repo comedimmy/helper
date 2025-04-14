@@ -1,0 +1,104 @@
+using System.Drawing;
+using System.Windows.Forms;
+using System;
+using System.Security.Cryptography.X509Certificates;
+
+namespace swing_11124235
+{
+    public partial class Form1 : Form
+    {
+        Rectangle[] r = new Rectangle[6]; // 人物圖的 4張小圖的矩形區域
+        Image sprite = Properties.Resources.sprite_sheet; // 人物圖
+        int sprintIndex = 0;
+        int x=0, y=200, dx, dy;
+        int sprintAngle = 0;
+       
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            
+            ////////////////////////////////////////////////////////1
+            e.Graphics.ResetTransform();
+            e.Graphics.TranslateTransform(x,y); // 設定原點為紅色圓
+            e.Graphics.RotateTransform(sprintAngle);
+            e.Graphics.DrawImage(sprite, -50, -50, r[sprintIndex], GraphicsUnit.Pixel); // 以圖片中心繪製
+            e.Graphics.ResetTransform();
+
+
+            /*
+            e.Graphics.ResetTransform();
+            angle2 = angleEarth + 90;
+            angle2 %= 360;
+            double xx = Math.Cos(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Width / 2;
+            double yy = Math.Sin(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Height / 2;
+            e.Graphics.DrawImage(sprite, (int)xx - 80 / 2, (int)yy - 80 / 2, r[sprintIndex], GraphicsUnit.Pixel);
+            e.Graphics.ResetTransform();
+            */
+            ////////////////////////////////////////////////////////2
+            /*
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            // 繪出 太陽
+            e.Graphics.TranslateTransform(this.ClientSize.Width / 2, this.ClientSize.Height / 2);
+            e.Graphics.FillEllipse(Brushes.Crimson, -50, -50, 100, 100);*/
+            ////////////////////////////////////////////////////////3
+            /*
+            e.Graphics.ResetTransform();
+            angle2 = angleEarth + 150;
+            angle2 %= 360;
+            xx = Math.Cos(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Width / 2;
+            yy = Math.Sin(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Height / 2;
+            float ss = Convert.ToSingle(Math.Atan2(Convert.ToDouble(ClientSize.Height - yy), Convert.ToDouble(ClientSize.Width / 2 - xx)));
+            angle3 = Convert.ToSingle(ss * 180.0 / 3.14);
+            angle3 += 359;
+            angle3 %= 360;
+            e.Graphics.TranslateTransform(Convert.ToInt32(xx), Convert.ToInt32(yy));
+            e.Graphics.RotateTransform(angle3);
+            e.Graphics.DrawImage(sprite, -80 / 2, -80 / 2, r[sprintIndex], GraphicsUnit.Pixel);
+            e.Graphics.ResetTransform();
+            ////////////////////////////////////////////////////////4
+            angle2 = angleEarth + 210;
+            angle2 %= 360;
+            xx = Math.Cos(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Width / 2;
+            yy = Math.Sin(angle2 * 3.14159 / 180) * 300 + this.ClientSize.Height / 2;
+
+
+            ss = Convert.ToSingle(Math.Atan2(Convert.ToDouble(my - yy), Convert.ToDouble(mx - xx)));
+            angle3 = Convert.ToSingle(ss * 180.0 / 3.14);
+            angle3 += 359;
+            angle3 %= 360;
+            e.Graphics.TranslateTransform(Convert.ToInt32(xx), Convert.ToInt32(yy));
+            e.Graphics.RotateTransform(angle3);
+            e.Graphics.DrawImage(sprite, -80 / 2, -80 / 2, r[sprintIndex], GraphicsUnit.Pixel);
+            */
+        }
+
+
+        public Form1()
+        {
+            InitializeComponent();
+            this.ClientSize = new Size(1000, 1000); // 視窗客戶區的寬高
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+
+            x += dx;
+            y += dy;
+            dy = dy + 1;
+            
+            sprintIndex++;
+            sprintIndex %= 6;
+            sprintAngle += 50;
+            this.Invalidate();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 6; i++)
+                r[i] = new Rectangle(i * 100, 0, 100, 150);
+            dx = 10;
+            dy = -20;
+        }
+    }
+}
